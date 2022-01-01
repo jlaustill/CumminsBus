@@ -136,6 +136,12 @@ int main(void)
               sstream << "0x" << std::hex << i << " ";
           }
           Console::logln(str);
+          std::string IdTypeString = RxHeader.IdType == FDCAN_STANDARD_ID ? "Standard ID" : "Extended ID";
+          Console::log(IdTypeString + " ");
+          std::string IdFrameTypeString = RxHeader.RxFrameType == FDCAN_DATA_FRAME ? "Data Frame" : "Remote Request Frame";
+          Console::log(IdFrameTypeString + " ");
+          std::string IdFrameFormatString = RxHeader.FDFormat == FDCAN_DATA_FRAME ? "Classic CAN" : "FD CAN";
+          Console::log(IdFrameFormatString + " ");
           Console::logln(sstream.str());
 
           Console::log(tempMessage.canId.to_int_string());
@@ -171,6 +177,8 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
         {
             Error_Handler();
         }
+
+
 
         std::string str;
         for (int i: RxData) {
